@@ -17,7 +17,7 @@ public class Credit extends Account {
 
     @Id
     private String accountId;
-    private CreditType crediType;
+    private CreditType creditType;
     private double amount;
     private double limitAmount;
     private double fee;
@@ -32,7 +32,7 @@ public class Credit extends Account {
     }
 
     public Credit(CreditType crediType, double amount, double fee, int totalFee, double interestRate) {
-        this.crediType = crediType;
+        this.creditType = crediType;
         this.amount = amount;
         this.fee = fee;
         this.totalFee = totalFee;

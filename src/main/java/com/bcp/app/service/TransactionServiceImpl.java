@@ -26,8 +26,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Single<Transaction> update(Transaction transaction) {
-        return transactionRepository.save(transaction);
+    public Completable update(Transaction transaction) {
+        return transactionRepository.save(transaction).toCompletable();
     }
 
     @Override

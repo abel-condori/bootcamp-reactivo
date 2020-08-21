@@ -13,7 +13,7 @@ public interface DebitService {
 
     Flowable<Debit> findAll();
 
-    Single<Debit> update(Debit debit);
+    Completable update(Debit debit);
 
     Completable delete(String id);
 

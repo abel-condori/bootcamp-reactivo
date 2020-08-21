@@ -2,6 +2,7 @@ package com.bcp.app.controller;
 
 import com.bcp.app.model.dto.CreditAccount;
 import com.bcp.app.model.dto.DebitAccount;
+import com.bcp.app.model.exception.ErrorCode;
 import com.bcp.app.model.request.BaseResponse;
 import com.bcp.app.service.AccountService;
 import com.bcp.app.service.CreditService;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.persistence.EntityNotFoundException;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,7 +42,6 @@ public class AccountController {
         return accountService.createDebitAccount(debitAccount)
                 .subscribeOn(Schedulers.io())
                 .map(debitAccount1 -> BaseResponse.successNoData());
-
     }
 
     @PostMapping("/credit")

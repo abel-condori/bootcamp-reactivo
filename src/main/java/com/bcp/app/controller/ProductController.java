@@ -1,7 +1,11 @@
 package com.bcp.app.controller;
 
 import com.bcp.app.model.document.Product;
+import com.bcp.app.model.request.BaseResponse;
 import com.bcp.app.service.ProductService;
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,30 +21,34 @@ public class ProductController {
     private ProductService productService;
 
     /*@PostMapping
-    public ResponseEntity<Void> create(@RequestBody Product product) {
-        productService.create(product);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public Single<BaseResponse> create(@RequestBody Product product) {
+        return productService.create(product)
+                .subscribeOn(Schedulers.io())
+                .map(o -> BaseResponse.successNoData());
     }
 
     @GetMapping
-    public ResponseEntity<Flux<Product>> findAll() {
-        return new ResponseEntity<>(productService.findAll(), HttpStatus.OK);
+    public Flowable<BaseResponse> findAll() {
+        return productService.findAll()
+                .subscribeOn(Schedulers.io())
+                .map(product -> BaseResponse.successWithData(product));
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody Product product) {
-        productService.update(product);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public Single<BaseResponse> update(@RequestBody Product product) {
+        return productService.update(product)
+                .subscribeOn(Schedulers.io())
+                .toSingle(() -> BaseResponse.successNoData());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
+    public Single<BaseResponse> delete(@PathVariable String id) {
         productService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Mono<Product>> findById(@PathVariable String id) {
+    public Single<BaseResponse> findById(@PathVariable String id) {
         return new ResponseEntity<>(productService.findById(id),HttpStatus.OK);
     }*/
 }

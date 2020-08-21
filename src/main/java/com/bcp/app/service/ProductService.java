@@ -13,7 +13,7 @@ public interface ProductService {
 
     Flowable<Product> findAll();
 
-    Single<Product> update(Product product);
+    Completable update(Product product);
 
     Completable delete(String id);
 

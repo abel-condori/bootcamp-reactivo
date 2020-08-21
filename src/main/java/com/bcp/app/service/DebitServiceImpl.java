@@ -28,8 +28,8 @@ public class DebitServiceImpl implements DebitService {
     }
 
     @Override
-    public Single<Debit> update(Debit debit) {
-        return debitRepository.save(debit);
+    public Completable update(Debit debit) {
+        return debitRepository.save(debit).toCompletable();
     }
 
     @Override

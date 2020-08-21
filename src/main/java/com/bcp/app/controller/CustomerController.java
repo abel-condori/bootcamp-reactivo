@@ -1,7 +1,11 @@
 package com.bcp.app.controller;
 
 import com.bcp.app.model.document.Customer;
+import com.bcp.app.model.request.BaseResponse;
 import com.bcp.app.service.CustomerService;
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,15 +20,18 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    /*@PostMapping
-    public ResponseEntity<Void> create(@RequestBody Customer customer) {
-        customerService.create(customer);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @PostMapping
+    public Single<BaseResponse> create(@RequestBody Customer customer) {
+        return customerService.create(customer)
+                .subscribeOn(Schedulers.io())
+                .map(obj -> BaseResponse.successNoData());
     }
 
     @GetMapping
-    public ResponseEntity<Flux<Customer>> findAll() {
-        return new ResponseEntity<>(customerService.findAll(), HttpStatus.OK);
+    public Flowable<BaseResponse> findAll() {
+        return customerService.findAll()
+                .subscribeOn(Schedulers.io())
+                .map(customer -> BaseResponse.successWithData(customer));
     }
 
     @PutMapping
@@ -34,13 +41,18 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
-        customerService.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public Single<BaseResponse> delete(@PathVariable String id) {
+        return customerService.delete(id)
+                .subscribeOn(Schedulers.io())
+                .toSingle(() -> BaseResponse.successNoData());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Mono<Customer>> findById(@PathVariable String id) {
-        return new ResponseEntity<>(customerService.findById(id),HttpStatus.OK);
-    }*/
+    public Single<BaseResponse> findById(@PathVariable String id) {
+        return customerService.findById(id)
+                .subscribeOn(Schedulers.io())
+                .toSingle()
+                .map(customer -> BaseResponse.successWithData(customer));
+
+    }
 }

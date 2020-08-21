@@ -13,7 +13,7 @@ public interface TransactionService {
 
     Flowable<Transaction> findAll();
 
-    Single<Transaction> update(Transaction transaction);
+    Completable update(Transaction transaction);
 
     Completable delete(String id);
 

@@ -26,8 +26,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Single<Product> update(Product product) {
-        return productRepository.save(product);
+    public Completable update(Product product) {
+        return productRepository.save(product).toCompletable();
     }
 
     @Override
